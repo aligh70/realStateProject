@@ -6,6 +6,8 @@ import TextInput from "@/module/TextInput";
 import RadioList from "@/module/RadioList";
 import TextList from "@/module/TextList";
 import CustomDatePicker from "@/module/CustomDatePicker";
+import toast, { Toaster } from "react-hot-toast";
+import Loader from "@/module/Loader";
 
 function AddProfilePage() {
   const [profileData, setProfileData] = useState({
@@ -20,8 +22,23 @@ function AddProfilePage() {
     rules: [],
     amenities: [],
   });
-  const submitHandler = () => {
-    console.log(profileData);
+
+  const [loading, setLoading] = useState(false);
+  const submitHandler = async () => {
+    setLoading(true);
+    const res = await fetch("/api/profile", {
+      method: "POST",
+      body: JSON.stringify(profileData),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+    setLoading(false);
+    if (data.error) {
+      toast.error(data.error);
+    } else {
+      toast.success(data.message);
+    }
   };
   return (
     <div className={styles.container}>
@@ -80,9 +97,14 @@ function AddProfilePage() {
         profileData={profileData}
         setProfileData={setProfileData}
       />
-      <button className={styles.submit} onClick={submitHandler}>
-        ثبت آگهی
-      </button>
+      <Toaster />
+      {loading ? (
+        <Loader />
+      ) : (
+        <button className={styles.submit} onClick={submitHandler}>
+          ثبت آگهی
+        </button>
+      )}
     </div>
   );
 }
