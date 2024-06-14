@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { HiFilter } from "react-icons/hi";
 import styles from "@/module/Sidebar.module.css";
-import Link from "next/link";
 
 function Sidebar() {
   const queries = [

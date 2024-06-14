@@ -6,11 +6,12 @@
       "@/app/*": ["src/app/*"],
       "@/utils/*": ["src/utils/*"],
       "@/models/*": ["src/models/*"],
+      "@/constants/*": ["src/constants/*"],
       "@/layout/*": ["src/components/layout/*"],
       "@/module/*": ["src/components/module/*"],
       "@/template/*": ["src/components/template/*"],
       "@/providers/*": ["src/providers/*"],
-      "@/api/*": ["src/app/api/*"],
+      "@/api/*": ["src/app/api/*"]
     }
   }
 }
