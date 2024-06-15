@@ -11,3 +11,14 @@ async function ProfileDetails({ params: { profileId } }) {
 }
 
 export default ProfileDetails;
+
+export const generateMetadata = async ({ params: { profileId } }) => {
+  const profile = await Profile.findOne({ _id: profileId });
+
+  return {
+    title: profile.title,
+    description: profile.description,
+    authors: { name: "Ali" },
+    other: { mytag: "test meta tag", realState: profile.realState },
+  };
+};
