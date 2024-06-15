@@ -45,6 +45,18 @@ function AddProfilePage({ data }) {
       toast.error(data.error);
     } else {
       toast.success(data.message);
+      setProfileData({
+        title: "",
+        description: "",
+        location: "",
+        phone: "",
+        price: "",
+        realState: "",
+        constractionDate: new Date(),
+        category: "",
+        rules: [],
+        amenities: [],
+      });
       router.refresh();
     }
   };

@@ -1,25 +1,26 @@
-import DashboardSidebar from "@/layout/DashboardSidebar";
+import connectDB from "@/utils/connectDB";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import connectDB from "@/utils/connectDB";
 import User from "@/models/User";
+import DashboardSidebar from "@/layout/DashboardSidebar";
+import AdminPage from "@/template/AdminPage";
+import Profile from "@/models/Profile";
 
-async function DashboardLayout({ children }) {
+async function Admin() {
+  await connectDB();
   const session = await getServerSession(authOptions);
-
   if (!session) redirect("/signin");
 
-  await connectDB();
   const user = await User.findOne({ email: session.user.email });
+  if (user.role !== "ADMIN") redirect("/dashboard");
 
-  if (!user) return <h3>مشکلی پیش آمده است</h3>;
-
+  const profiles = await Profile.find({ published: false });
   return (
     <DashboardSidebar role={user.role} email={user.email}>
-      {children}
+      <AdminPage profiles={profiles} />
     </DashboardSidebar>
   );
 }
 
-export default DashboardLayout;
+export default Admin;
